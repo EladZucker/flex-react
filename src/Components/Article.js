@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 const StyledButton = styled.button`
     padding: 16px 32px;
     font-family: Assistant;
@@ -38,14 +37,19 @@ const StyledContent = styled.div`
     color: #1c1c1c;
 `;
 
+const StyledImage = styled.img`
+width: 100%;
+`;
 const Article = ({
     className, 
     title, 
     headline, 
     buttonText,
+    image,
     children}) => {
     return (
         <article className={className}>
+            {image &&<StyledImage src={image} /> }
             <StyledTitle>{title}</StyledTitle>
             <StyledHeadLine>{headline}</StyledHeadLine>
             <StyledContent>{children}</StyledContent>
