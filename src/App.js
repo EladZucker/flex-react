@@ -40,7 +40,7 @@ const data = [
   {
     title: 'COLORS',
     headline: 'A whistle-stop tour of 4 new CSS color features',
-    column: 'mid',
+    column: 'center',
 
     content: (<>
                 <p>I was just writing in my <a href="#">“What’s new in since CSS3?”</a> article about 
@@ -62,7 +62,7 @@ const data = [
           {
             title: 'SUBSCRIPTION',
             headline: 'Stay tuned & get new updates',
-            column: 'mid',
+            column: 'center',
 
             content: (<p>If you'd like to know when we release additional results or announce next year's edition, just leave us your email below</p>),
           },
@@ -91,35 +91,36 @@ const data = [
     
 ]
 let leftData = [];
-let midData = [];
+let centerData = [];
 let rightData = [];
 
-const columns = [
-  { data : leftData,
-    isStandardSize : true,
-  },
-  { data : midData,
-    isStandardSize : false,
-  },
-  { data : rightData,
-    isStandardSize : true,
-  }
-];
 
 for (let i=0;i<data.length;i++) {
   switch(data[i].column) {
     case "left":
       leftData.push(data[i]);
       break;
-    case "mid":
-      midData.push(data[i]);
+    case "center":
+      centerData.push(data[i]);
       break;
     case "right":
+    default:
       rightData.push(data[i]);
       break;
-    default:
   }
 }
+        
+const columns = [
+  { data : leftData,
+    isBig : true,
+  },
+  { data : centerData,
+    isBig : false,
+  },
+  { data : rightData,
+    isBig : false,
+  }
+];
 
 function App() {
   return (
@@ -127,56 +128,30 @@ function App() {
       <StyledHeader></StyledHeader>
       <StyledTitle>Latest updates</StyledTitle>
       <ContentWrapper>
-        <ColumnContainer>
-          { leftData.map((item, idx, arr)=> {
-            return (
-              <>
-              <Article title={item.title}
-                       headline={item.headline}
-                       image={item.image}
-                       buttonText={item.buttonText}
-                       >
-                {item.content}
-              </Article>
-                {arr.length-1 !== idx && <hr></hr>}
-              </>
-            )
-          })}
-        </ColumnContainer>
-        <ColumnContainer big>
-        { midData.map((item, idx, arr) => {
-            return (
-              <>
-              <Article title={item.title}
-                       headline={item.headline}
-                       image={item.image}
-                       buttonText={item.buttonText}
-                       >
-                {item.content}
-              </Article>
-              {arr.length-1 !== idx && <hr></hr>}
-              </>
-            )
-          })}
-  
+
+        { columns.map(column => {
+          return (
+          <>
+            <ColumnContainer big={column.isBig}>
+              { column.data.map((item, idx, arr)=> {
+              return (
+                <>
+                <Article title={item.title}
+                        headline={item.headline}
+                        image={item.image}
+                        buttonText={item.buttonText}
+                        >
+                  {item.content}
+                </Article>
+                  {arr.length-1 !== idx && <hr></hr>}
+                </>
+              )
+            })}
         </ColumnContainer>
 
-        <ColumnContainer>
-        { rightData.map((item, idx, arr) => {
-            return (
-              <>
-              <Article title={item.title}
-                       headline={item.headline}
-                       image={item.image}
-                       buttonText={item.buttonText}
-                       >
-                {item.content}
-              </Article>
-                {arr.length-1 !== idx && <hr></hr>}
-              </>
-            )
-          })}
-        </ColumnContainer>
+          </>
+          )
+        })}
 
       </ContentWrapper>
     </div>
